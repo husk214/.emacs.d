@@ -136,7 +136,7 @@
     (define-key company-search-map (kbd "C-n") 'company-select-next)
     (define-key company-search-map (kbd "C-p") 'company-select-previous)
     (define-key company-active-map (kbd "C-s") 'company-filter-candidates)
-    (define-key company-active-map (kbd "C-i") 'company-complete-selection)
+    (define-key company-active-map (kbd "<tab>") 'company-complete-selection)
 
     (set-face-attribute 'company-tooltip nil
 			:foreground "black" :background "lightgrey")
@@ -206,3 +206,8 @@
   (global-set-key (kbd "C-c i") 'clang-format-region)
   (global-set-key (kbd "C-c u") 'clang-format-buffer)
   (setq clang-format-style-option "google") )
+
+(eval-after-load "yasnippet"
+  '(progn
+     (define-key yas-keymap (kbd "<tab>") nil)
+     (yas-global-mode 1)))
