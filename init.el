@@ -54,7 +54,7 @@
     igrep
     grep-a-lot
     google-c-style
-    afternoon-theme
+    madhat2r-theme
     git-gutter
     magit
     multiple-cursors
@@ -79,8 +79,8 @@
     (dolist (pkg not-installed)
         (package-install pkg))) )
 
-(require 'afternoon-theme)
-(load-theme 'afternoon t)
+(require 'madhat2r-theme)
+(load-theme ' madhat2r t)
 
 (require 'undo-tree)
 (global-undo-tree-mode)
