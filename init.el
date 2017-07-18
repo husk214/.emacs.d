@@ -50,6 +50,7 @@
 
 (defvar installing-package-list
   '(
+    use-package
     undo-tree
     igrep
     grep-a-lot
