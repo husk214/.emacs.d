@@ -30,20 +30,20 @@
 (eval-after-load "ispell"
   '(add-to-list 'ispell-skip-region-alist '("[^\000-\377]+")))
 
-(mapc                                 
+(mapc
  (lambda (hook)
    (add-hook hook 'flyspell-prog-mode))
  '(
-   c-mode-common-hook        
-   emacs-lisp-mode-hook              
+   c-mode-common-hook
+   emacs-lisp-mode-hook
    ))
 (mapc
    (lambda (hook)
      (add-hook hook
                       '(lambda () (flyspell-mode 1))))
    '(
-     yatex-mode-hook     
-                                   
+     yatex-mode-hook
+
      ))
 
 (require 'cl)
@@ -69,6 +69,9 @@
     yasnippet
     helm
     helm-tramp
+    auto-complete
+    rainbow-delimiters
+    fuzzy
     ))
 
 (let ((not-installed (loop for x in installing-package-list
@@ -80,7 +83,7 @@
         (package-install pkg))) )
 
 (require 'madhat2r-theme)
-(load-theme ' madhat2r t)
+(load-theme 'madhat2r t)
 
 (require 'undo-tree)
 (global-undo-tree-mode)
@@ -132,8 +135,8 @@
     (add-hook 'c-mode-common-hook 'company-mode)
     (add-hook 'emacs-lisp-mode-hook 'company-mode)
     :config
-    (setq company-async-timeout 1) ;; set timeout to 10 seconds
-    (setq company-idle-delay 0.2)
+    (setq company-async-timeout 0.5) ;; set timeout to 10 seconds
+    ;;(setq company-idle-delay 0.1)
     (define-key company-active-map (kbd "C-n") 'company-select-next)
     (define-key company-active-map (kbd "C-p") 'company-select-previous)
     (define-key company-search-map (kbd "C-n") 'company-select-next)
@@ -156,7 +159,7 @@
     (set-face-attribute 'company-scrollbar-bg nil
 			:background "gray40")
     )
-  
+
   (use-package jedi-core
      :ensure t
      :init
@@ -206,13 +209,18 @@
   :ensure t
   :config
   (require 'clang-format)
-  (global-set-key (kbd "C-c i") 'clang-format-region)
+  (global-set-key (kbd "C-c j") 'clang-format-region)
   (global-set-key (kbd "C-c u") 'clang-format-buffer)
   (setq clang-format-style-option "google") )
 
 (eval-after-load "yasnippet"
   '(progn
      (define-key yas-keymap (kbd "<tab>") nil)
+     (define-key yas-keymap (kbd "C-c i") nil)
+     (define-key yas-minor-mode-map [(tab)] nil)
+     (define-key yas-minor-mode-map (kbd "TAB") nil)
+     (define-key yas-keymap (kbd "C-x j") 'yas/expand)
+     (define-key yas-minor-mode-map (kbd "C-x j") 'yas-insert-snippet)
      (yas-global-mode 1)))
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -237,7 +245,7 @@
 (define-key global-map (kbd "C-x C-f") 'helm-find-files)
 (define-key global-map (kbd "C-x C-r") 'helm-recentf)
 (define-key global-map (kbd "M-y")     'helm-show-kill-ring)
-(define-key global-map (kbd "C-c i")   'helm-imenu)
+(define-key global-map (kbd "C-c n")   'helm-imenu)
 (define-key global-map (kbd "C-x b")   'helm-buffers-list)
 (define-key global-map (kbd "C-;") 'helm-mini)
 (define-key helm-map (kbd "C-h") 'delete-backward-char)
@@ -301,3 +309,17 @@
 
 ;; Connect tramp with bash
 (eval-after-load 'tramp '(setenv "SHELL" "/bin/bash"))
+
+(require 'auto-complete-config)
+(ac-config-default)
+(add-to-list 'ac-modes 'text-mode)         ;; text-modeでも自動的に有効にする
+(add-to-list 'ac-modes 'fundamental-mode)  ;; fundamental-mode
+(add-to-list 'ac-modes 'org-mode)
+(add-to-list 'ac-modes 'yatex-mode)
+(ac-set-trigger-key "TAB")
+(setq ac-delay 0.2)  
+(setq ac-use-menu-map t)       ;; 補完メニュー表示時にC-n/C-pで補完候補選択
+(setq ac-use-fuzzy t)          ;; 曖昧マッチ
+
+(require 'rainbow-delimiters)
+(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)

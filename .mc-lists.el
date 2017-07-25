@@ -3,10 +3,12 @@
 
 (setq mc/cmds-to-run-for-all
       '(
+	c-electric-slash
 	))
 
 (setq mc/cmds-to-run-once
       '(
 	goto-line
 	keyboard-escape-quit
+	undo-tree-visualize
 	))
