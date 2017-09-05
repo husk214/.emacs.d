@@ -61,7 +61,11 @@
     multiple-cursors
     smartrep
     company
-    jedi-core
+    python-mode
+    jedi
+    virtualenvwrapper
+    epc
+    python
     company-jedi
     irony
     company-irony
@@ -160,16 +164,20 @@
     (set-face-attribute 'company-scrollbar-bg nil
 			:background "gray40")
     )
-
-  (use-package jedi-core
-     :ensure t
-     :init
-     (add-hook 'python-mode-hook 'jedi:setup)
-     :config
-     (setq jedi:complete-on-dot t)
-     (setq jedi:use-shortcuts t)
-     (eval-after-load 'company '(add-to-list 'company-backends '(company-jedi))) )
-
+  (use-package jedi
+    :ensure t
+    :defer t
+    :init
+    (add-hook 'python-mode-hook 'jedi:setup)
+    :config
+    (setq jedi:complete-on-dot t)
+    )
+  (use-package virtualenvwrapper
+    :ensure t
+    :defer t
+    :config
+    (setenv "PYTHONPATH" "/Users/shibagaki/.local/share/virtualenvs/python-DRMAozEm")
+    )
   (use-package irony
     :ensure t
     :defer t
