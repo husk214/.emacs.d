@@ -77,7 +77,6 @@
     jedi
     virtualenvwrapper
     epc
-    python-mode
     company-jedi
     flycheck
     helm-flycheck
@@ -99,6 +98,18 @@
     (package-refresh-contents)
     (dolist (pkg not-installed)
         (package-install pkg))) )
+
+(use-package python-mode
+  :ensure t
+  :defer t
+  :init
+  (semantic-mode 1) 
+  (add-hook 'python-mode-hook
+  (lambda ()
+    (setq imenu-create-index-function 'python-imenu-create-index)))
+  :bind (("C-x 4 p" . py-execute-region-python)
+	 ("C-x 4 l" . py-execute-line-python))
+  )
 
 (require 'multiple-cursors)
 (require 'smartrep)
@@ -129,6 +140,7 @@
 
 (use-package undo-tree
   :ensure t
+  :diminish undo-tree-mode
   :config
   (global-undo-tree-mode)
   )
@@ -142,6 +154,7 @@
 
 (use-package git-gutter
   :ensure t
+  :diminish git-gutter-mode
   :config
   (global-git-gutter-mode t)
   )
@@ -153,7 +166,6 @@
   )
 
 (use-package company
-  ;; complete anything
   :defer t
   :ensure t
   :init
@@ -228,7 +240,6 @@
 
 (use-package flycheck
   :ensure t
-  :defer t
   :init
   (add-hook 'after-init-hook #'global-flycheck-mode) )
 
@@ -259,12 +270,14 @@
 (use-package yasnippet
   :ensure t
   :diminish yas-minor-mode
+  :init
+  (add-hook 'python-mode-hook 'yas-minor-mode)
   :bind (:map yas-minor-mode-map
-              ("C-x i i" . yas-insert-snippet)
-              ("C-x i n" . yas-new-snippet)
-              ("C-x i v" . yas-visit-snippet-file)
-              ("C-x i l" . yas-describe-tables)
-              ("C-x i g" . yas-reload-all))
+              ("C-x y i" . yas-insert-snippet)
+              ("C-x y n" . yas-new-snippet)
+              ("C-x y v" . yas-visit-snippet-file)
+              ("C-x y l" . yas-describe-tables)
+              ("C-x y g" . yas-reload-all))
   :config
   (yas-global-mode 1)
   (setq yas-prompt-functions '(yas-ido-prompt))
@@ -370,7 +383,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (yatex yasnippet use-package undo-tree smartrep seti-theme rainbow-delimiters python-mode pyenv-mode-auto py-yapf powerline package-utils multiple-cursors magit madhat2r-theme jedi irony-eldoc imenus imenu-list igrep helm-tramp helm-flycheck grep-a-lot goto-chg google-c-style git-gutter-fringe fzf fuzzy flycheck-irony exec-path-from-shell dumb-jump company-jedi company-irony-c-headers company-irony clues-theme clang-format auto-virtualenvwrapper anything afternoon-theme))))
+    (yatex yasnippet use-package undo-tree smartrep seti-theme rainbow-delimiters python-mode pyenv-mode-auto py-yapf powerline package-utils multiple-cursors magit madhat2r-theme jedi irony-eldoc imenus imenu-list igrep helm-tramp helm-flycheck grep-a-lot goto-chg google-c-style git-gutter-fringe fzf fuzzy flycheck-irony exec-path-from-shell dumb-jump company-jedi company-irony-c-headers company-irony clues-theme clang-format auto-virtualenvwrapper afternoon-theme))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
