@@ -116,9 +116,9 @@
 (declare-function smartrep-define-key "smartrep")
 (global-set-key (kbd "C-M-c") 'mc/edit-lines)
 (global-set-key (kbd "C-M-r") 'mc/mark-all-in-region)
-(global-unset-key "\C-t")
-(smartrep-define-key global-map "C-t"
-  '(("C-t"      . 'mc/mark-next-like-this)
+(global-unset-key "\C-r")		
+(smartrep-define-key global-map "C-r"
+  '(("C-r"      . 'mc/mark-next-like-this)
     ("n"        . 'mc/mark-next-like-this)
     ("p"        . 'mc/mark-previous-like-this)
     ("m"        . 'mc/mark-more-like-this-extended)
@@ -198,18 +198,18 @@
 		      :background "gray40")
   )
 
-(use-package jedi
-  :ensure t
-  :defer t
-  :init
-  (add-hook 'python-mode-hook 'jedi:setup)
-  :config
-  (setq jedi:complete-on-dot t)
-  )
-(use-package virtualenvwrapper
-  :ensure t
-  :defer t
-  )
+;; (use-package jedi
+;;   :ensure t
+;;   :defer t
+;;   :init
+;;   (add-hook 'python-mode-hook 'jedi:setup)
+;;   :config
+;;   (setq jedi:complete-on-dot t)
+;;   )
+;; (use-package virtualenvwrapper
+;;   :ensure t
+;;   :defer t
+;;   )
 (use-package irony
   :ensure t
   :defer t
@@ -241,7 +241,10 @@
 (use-package flycheck
   :ensure t
   :init
-  (add-hook 'after-init-hook #'global-flycheck-mode) )
+  (add-hook 'after-init-hook #'global-flycheck-mode)
+  (add-hook 'c++-mode-hook (lambda () (setq flycheck-gcc-language-standard "c++11")))
+  )
+
 
 (use-package py-yapf
   :ensure t
@@ -264,7 +267,7 @@
   :config
   (require 'clang-format)
   (global-set-key (kbd "C-c j") 'clang-format-region)
-  (global-set-key (kbd "C-c u") 'clang-format-buffer)
+  (global-set-key (kbd "C-c k") 'clang-format-buffer)
   (setq clang-format-style-option "google") )
 
 (use-package yasnippet
@@ -390,3 +393,4 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+(put 'dired-find-alternate-file 'disabled nil)

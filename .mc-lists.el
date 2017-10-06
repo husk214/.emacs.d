@@ -4,6 +4,7 @@
 (setq mc/cmds-to-run-for-all
       '(
 	c-electric-slash
+	helm-M-x
 	))
 
 (setq mc/cmds-to-run-once
